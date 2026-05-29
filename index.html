@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Нефутбольный образовательный клуб ЧМ-2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --red:    #cc2020;
+      --red-d:  #a01818;
+      --green:  #1e6b38;
+      --green-l:#2a9150;
+      --blue:   #1844a0;
+      --gold:   #b87c00;
+      --bg:     #faf9f5;
+      --bg2:    #f0efe9;
+      --bg3:    #ffffff;
+      --text:   #111111;
+      --muted:  #555555;
+      --border: #dddbd4;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* ── DECORATIVE BALL ── */
+    .ball-deco {
+      position: absolute;
+      pointer-events: none;
+      user-select: none;
+      border-radius: 50%;
+      opacity: 0.13;
+      z-index: 0;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 80px 24px 60px;
+      overflow: hidden;
+      background: #0a0a0a;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background: url('images/photo_selfie.jpg') center/cover no-repeat;
+      filter: brightness(0.28);
+    }
+
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg,
+        rgba(10,10,10,0.2) 0%,
+        rgba(10,10,10,0.55) 60%,
+        #0a0a0a 100%);
+    }
+
+    /* Hero keeps dark for drama — light starts after */
+    .hero .ball-deco { opacity: 0.22; filter: saturate(1.3); }
+
+    .hero-ball-l {
+      width: 340px; height: 340px;
+      left: -100px; bottom: 80px;
+      transform: rotate(-20deg);
+    }
+    .hero-ball-r {
+      width: 260px; height: 260px;
+      right: -60px; top: 120px;
+      transform: rotate(30deg);
+    }
+
+    .hero-content { position: relative; z-index: 2; max-width: 860px; }
+
+    .hero-badge {
+      display: inline-block;
+      background: var(--red);
+      color: #fff;
+      font-family: 'Oswald', sans-serif;
+      font-size: 13px; font-weight: 500;
+      letter-spacing: 2px; text-transform: uppercase;
+      padding: 6px 18px; border-radius: 2px;
+      margin-bottom: 28px;
+    }
+
+    .hero h1 {
+      font-family: 'Oswald', sans-serif;
+      font-size: clamp(34px, 7vw, 78px);
+      font-weight: 700;
+      line-height: 1.05;
+      text-transform: uppercase;
+      letter-spacing: -1px;
+      color: #fff;
+      margin-bottom: 24px;
+    }
+    .hero h1 em { color: var(--red); font-style: normal; }
+
+    .hero-sub {
+      font-size: clamp(16px, 2.2vw, 19px);
+      color: rgba(255,255,255,0.75);
+      max-width: 580px;
+      margin: 0 auto 40px;
+      line-height: 1.6;
+    }
+
+    .btn-primary {
+      display: inline-block;
+      background: var(--red);
+      color: #fff;
+      font-family: 'Oswald', sans-serif;
+      font-size: 19px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 1px;
+      padding: 18px 48px; border-radius: 4px;
+      text-decoration: none;
+      transition: background .2s, transform .15s;
+    }
+    .btn-primary:hover { background: var(--red-d); transform: translateY(-2px); }
+
+    .btn-secondary {
+      display: inline-block;
+      background: transparent;
+      color: #fff;
+      font-family: 'Oswald', sans-serif;
+      font-size: 19px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 1px;
+      padding: 16px 40px; border-radius: 4px;
+      text-decoration: none;
+      border: 2px solid rgba(255,255,255,0.4);
+      transition: border-color .2s, background .2s;
+    }
+    .btn-secondary:hover { border-color: #fff; background: rgba(255,255,255,0.08); }
+
+    .hero-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-bottom: 20px; }
+
+    .hero-seats {
+      font-size: 13px;
+      color: rgba(255,255,255,0.45);
+      letter-spacing: 1px;
+    }
+    .hero-seats strong { color: rgba(255,255,255,0.8); }
+
+    .scroll-hint {
+      position: absolute; bottom: 28px; left: 50%;
+      transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 6px;
+      color: rgba(255,255,255,0.3);
+      font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+      z-index: 2; animation: bounce 2.2s infinite;
+    }
+    @keyframes bounce {
+      0%,100% { transform: translateX(-50%) translateY(0); }
+      50%      { transform: translateX(-50%) translateY(7px); }
+    }
+
+    /* ── LAYOUT ── */
+    section { padding: 80px 24px; position: relative; overflow: hidden; }
+    .container      { max-width: 900px;  margin: 0 auto; position: relative; z-index: 1; }
+    .container-wide { max-width: 1100px; margin: 0 auto; position: relative; z-index: 1; }
+
+    .section-label {
+      font-family: 'Oswald', sans-serif;
+      font-size: 11px; font-weight: 500;
+      letter-spacing: 3px; text-transform: uppercase;
+      color: var(--red); margin-bottom: 14px;
+    }
+
+    .section-title {
+      font-family: 'Oswald', sans-serif;
+      font-size: clamp(28px, 5vw, 52px);
+      font-weight: 700; line-height: 1.08;
+      text-transform: uppercase; margin-bottom: 32px;
+      color: var(--text);
+    }
+    .section-title span  { color: var(--red); }
+    .section-title .grn  { color: var(--green); }
+    .section-title .blue { color: var(--blue); }
+
+    /* ── TRIONDA STRIP ── */
+    .trionda-strip {
+      display: flex; height: 6px;
+    }
+    .trionda-strip span { flex: 1; }
+    .trionda-strip .s-red   { background: var(--red); }
+    .trionda-strip .s-green { background: var(--green); }
+    .trionda-strip .s-blue  { background: var(--blue); }
+
+    /* ── STORY ── */
+    .story { background: var(--bg); }
+
+    .story-inner { display: grid; grid-template-columns: 1fr auto; gap: 60px; align-items: start; }
+
+    .story-text {
+      font-size: clamp(16px, 1.8vw, 18px);
+      color: #2a2a2a; line-height: 1.85;
+    }
+    .story-text p { margin-bottom: 20px; }
+    .story-text p:last-child { margin-bottom: 0; }
+    .story-text .hl { color: var(--text); font-weight: 600; }
+
+    .story-quote {
+      border-left: 4px solid var(--red);
+      padding: 18px 24px;
+      margin: 28px 0;
+      background: #fdf0f0;
+      border-radius: 0 6px 6px 0;
+      font-size: 17px; font-style: italic;
+      color: #111;
+    }
+
+    .story-ball {
+      width: 220px; height: 220px;
+      flex-shrink: 0;
+      border-radius: 50%;
+      object-fit: cover;
+      object-position: center;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+      transform: rotate(15deg);
+      position: sticky; top: 120px;
+    }
+
+    @media (max-width: 700px) {
+      .story-inner { grid-template-columns: 1fr; }
+      .story-ball  { display: none; }
+    }
+
+    /* ── ABOUT (green pitch feel) ── */
+    .about { background: var(--green); color: #fff; }
+    .about .section-label { color: rgba(255,255,255,0.6); }
+    .about .section-title { color: #fff; }
+    .about .section-title span { color: #a8e8c0; }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px; margin-top: 44px;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 10px; overflow: hidden;
+      transition: background .2s, transform .2s;
+      backdrop-filter: blur(4px);
+    }
+    .card:hover { background: rgba(255,255,255,0.16); transform: translateY(-4px); }
+
+    .card-vis {
+      width: 100%; height: 155px;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(0,0,0,0.28);
+    }
+    .card-vis svg { width: 115px; height: 115px; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.4)); }
+    .card-body { padding: 22px 24px 26px; }
+    .card h3 {
+      font-family: 'Oswald', sans-serif;
+      font-size: 20px; font-weight: 600;
+      text-transform: uppercase; margin-bottom: 10px; color: #fff;
+    }
+    .card p { font-size: 15px; color: rgba(255,255,255,0.8); line-height: 1.65; }
+
+    /* ── FOR WHOM ── */
+    .forwho { background: var(--bg2); }
+
+    .forwho-list { list-style: none; display: flex; flex-direction: column; gap: 14px; max-width: 720px; }
+    .forwho-list li {
+      display: flex; align-items: flex-start; gap: 16px;
+      font-size: 17px; color: #222; line-height: 1.55;
+      padding: 18px 20px;
+      background: var(--bg3);
+      border-radius: 8px;
+      border-left: 4px solid var(--red);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    .forwho-list li::before {
+      content: '→';
+      color: var(--red); font-family: 'Oswald', sans-serif;
+      font-size: 18px; font-weight: 700; flex-shrink: 0; margin-top: 1px;
+    }
+    .forwho-note {
+      margin-top: 32px;
+      padding: 18px 22px;
+      background: var(--bg3);
+      border: 2px solid var(--green);
+      border-radius: 8px;
+      font-size: 15px; color: var(--muted); max-width: 720px;
+      font-style: italic;
+    }
+
+    /* ── TIMELINE ── */
+    .timeline-section { background: var(--bg); }
+
+    .timeline { margin-top: 48px; padding-left: 0; }
+    .timeline-line {
+      position: relative;
+    }
+    .timeline-line::before {
+      content: '';
+      position: absolute;
+      left: 108px; top: 0; bottom: 0; width: 3px;
+      background: linear-gradient(180deg, var(--red) 0%, var(--blue) 50%, var(--green) 100%);
+    }
+
+    .timeline-item {
+      display: grid;
+      grid-template-columns: 108px 1fr;
+      gap: 28px;
+      padding: 24px 0;
+      position: relative;
+    }
+    .timeline-item:not(:last-child) {
+      border-bottom: 1px solid var(--border);
+    }
+
+    .timeline-date {
+      font-family: 'Oswald', sans-serif;
+      font-size: 12px; font-weight: 600;
+      color: var(--red); text-transform: uppercase;
+      letter-spacing: 1px; text-align: right;
+      padding-right: 24px; padding-top: 4px; line-height: 1.3;
+    }
+
+    .timeline-dot {
+      position: absolute;
+      left: 102px; top: 30px;
+      width: 15px; height: 15px;
+      border-radius: 50%;
+      background: var(--red);
+      border: 3px solid var(--bg);
+      box-shadow: 0 0 0 2px var(--red);
+    }
+
+    .timeline-body h3 {
+      font-family: 'Oswald', sans-serif;
+      font-size: 19px; font-weight: 600; text-transform: uppercase;
+      color: var(--text); margin-bottom: 6px; line-height: 1.2;
+    }
+    .timeline-body p { font-size: 14px; color: var(--muted); line-height: 1.7; }
+
+    /* ── DAILY ── */
+    .daily { background: var(--bg2); }
+
+    .daily-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 18px; margin-top: 40px;
+    }
+    .daily-item {
+      display: flex; align-items: flex-start; gap: 16px;
+      padding: 22px; background: var(--bg3);
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+    }
+    .daily-icon { font-size: 26px; flex-shrink: 0; }
+    .daily-text h4 {
+      font-family: 'Oswald', sans-serif;
+      font-size: 15px; font-weight: 600;
+      text-transform: uppercase; margin-bottom: 5px;
+    }
+    .daily-text p { font-size: 14px; color: var(--muted); line-height: 1.55; }
+
+    /* ── PHOTO STRIP ── */
+    .photo-strip { padding: 0; overflow: hidden; }
+    .photo-strip img {
+      width: 100%; max-height: 420px;
+      object-fit: cover; object-position: center 40%; display: block;
+    }
+
+    /* ── OUTCOMES ── */
+    .outcomes { background: var(--bg); }
+
+    .outcomes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(275px, 1fr));
+      gap: 14px; margin-top: 40px;
+    }
+    .outcome-item {
+      display: flex; align-items: flex-start; gap: 14px;
+      padding: 20px; background: var(--bg3);
+      border-radius: 8px; border: 1px solid var(--border);
+      font-size: 15px; color: #2a2a2a; line-height: 1.5;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+    .outcome-item::before {
+      content: '✓';
+      color: var(--green-l); font-size: 18px; font-weight: 700; flex-shrink: 0;
+    }
+
+    /* ── TRIONDA SHOWCASE ── */
+    .ball-showcase { background: var(--bg2); }
+
+    .showcase-inner {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center;
+    }
+    .showcase-text h2 {
+      font-family: 'Oswald', sans-serif;
+      font-size: clamp(26px, 4vw, 44px); font-weight: 700;
+      text-transform: uppercase; margin-bottom: 16px; line-height: 1.1;
+    }
+    .showcase-text p { font-size: 16px; color: var(--muted); line-height: 1.7; margin-bottom: 12px; }
+    .ball-img {
+      width: 100%; border-radius: 16px;
+      object-fit: cover;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.12);
+      transform: rotate(-5deg);
+      transition: transform .3s;
+    }
+    .ball-img:hover { transform: rotate(0deg) scale(1.03); }
+
+    @media (max-width: 640px) {
+      .showcase-inner { grid-template-columns: 1fr; }
+    }
+
+    /* ── TEAM ── */
+    .team { background: var(--bg); }
+
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 36px; margin-top: 48px;
+    }
+    .team-card { border-radius: 12px; overflow: hidden; box-shadow: 0 6px 30px rgba(0,0,0,0.08); }
+
+    .team-photo {
+      width: 100%; height: 340px;
+      object-fit: cover; object-position: center top; display: block;
+    }
+    .team-photo-placeholder {
+      width: 100%; height: 340px;
+      background: linear-gradient(135deg, var(--green) 0%, #0e3820 100%);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 72px; color: rgba(255,255,255,0.15);
+    }
+    .team-info { padding: 26px 28px; background: var(--bg3); }
+    .team-name {
+      font-family: 'Oswald', sans-serif;
+      font-size: 26px; font-weight: 700;
+      text-transform: uppercase; margin-bottom: 4px;
+    }
+    .team-title {
+      font-size: 12px; color: var(--red);
+      letter-spacing: 1.5px; text-transform: uppercase;
+      margin-bottom: 14px; font-weight: 500;
+    }
+    .team-credits { list-style: none; display: flex; flex-direction: column; gap: 7px; }
+    .team-credits li {
+      font-size: 14px; color: var(--muted);
+      padding-left: 16px; position: relative; line-height: 1.4;
+    }
+    .team-credits li::before { content: '—'; position: absolute; left: 0; color: var(--red); }
+    .team-fact {
+      margin-top: 14px; padding: 12px 16px;
+      background: #fdf0f0; border-left: 3px solid var(--red);
+      border-radius: 0 4px 4px 0;
+      font-size: 14px; font-style: italic; color: #111;
+      line-height: 1.5;
+    }
+
+    /* ── CTA ── */
+    .cta-section {
+      background: var(--text);
+      text-align: center; padding: 100px 24px;
+    }
+    .cta-section .ball-deco { opacity: 0.18; filter: saturate(1.4); }
+    .cta-ball-l { width: 280px; height: 280px; left: -80px; bottom: -40px; transform: rotate(-25deg); }
+    .cta-ball-r { width: 200px; height: 200px; right: -50px; top: 40px; transform: rotate(20deg); }
+
+    .cta-content { position: relative; z-index: 2; max-width: 680px; margin: 0 auto; }
+    .cta-section h2 {
+      font-family: 'Oswald', sans-serif;
+      font-size: clamp(28px, 5vw, 54px);
+      font-weight: 700; text-transform: uppercase;
+      color: #fff; line-height: 1.1; margin-bottom: 16px;
+    }
+    .cta-section h2 em { color: var(--red); font-style: normal; }
+    .cta-section .subtext { font-size: 17px; color: rgba(255,255,255,0.65); margin-bottom: 48px; line-height: 1.65; }
+    .price-label { font-size: 12px; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px; }
+    .price {
+      font-family: 'Oswald', sans-serif;
+      font-size: clamp(56px, 10vw, 100px);
+      font-weight: 700; color: #fff; line-height: 1; margin-bottom: 6px;
+    }
+    .price sub { font-size: 36px; color: rgba(255,255,255,0.6); }
+    .price-note { font-size: 14px; color: rgba(255,255,255,0.4); margin-bottom: 36px; }
+
+    .seats-counter {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.15);
+      padding: 10px 24px; border-radius: 100px;
+      font-size: 13px; color: rgba(255,255,255,0.55);
+      margin-top: 20px;
+    }
+    .seats-dot {
+      width: 8px; height: 8px; background: var(--green-l);
+      border-radius: 50%; animation: pulse 1.6s infinite;
+    }
+    @keyframes pulse {
+      0%,100% { opacity:1; transform:scale(1); }
+      50%      { opacity:0.4; transform:scale(0.7); }
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #0a0a0a; border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 30px 24px; text-align: center;
+      font-size: 13px; color: rgba(255,255,255,0.3);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 640px) {
+      .timeline-line::before { left: 68px; }
+      .timeline-item { grid-template-columns: 68px 1fr; gap: 14px; }
+      .timeline-date { font-size: 10px; padding-right: 14px; }
+      .timeline-dot  { left: 62px; }
+      .team-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ TRIONDA COLOR STRIP ══ -->
+<div class="trionda-strip">
+  <span class="s-red"></span>
+  <span class="s-green"></span>
+  <span class="s-blue"></span>
+</div>
+
+<!-- ══════════ HERO ══════════ -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <!-- Trionda ball decorations -->
+  <img src="images/trionda_ball.jpg" class="ball-deco hero-ball-l" alt="">
+  <img src="images/trionda_ball.jpg" class="ball-deco hero-ball-r" alt="">
+
+  <div class="hero-content">
+    <div class="hero-badge" style="font-size:18px;padding:10px 28px;letter-spacing:2px">11 июня — 19 июля 2026</div>
+    <h1><s style="text-decoration-color:#cc2020">Не</s>футбольный<br>образовательный<br>клуб <em>ЧМ-2026</em></h1>
+    <p class="hero-sub">Не просто смотреть футбол — исследовать жизнь.<br>Команды, стратегии, давление, решения.<br>На материале, который уже заряжен вниманием миллионов.</p>
+    <div class="hero-badge" style="font-size:18px;padding:10px 28px;letter-spacing:2px;background:transparent;border:2px solid rgba(255,255,255,0.4)">Только 48 мест</div>
+  </div>
+  <div class="scroll-hint">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+  </div>
+</section>
+
+<!-- ══════════ STORY ══════════ -->
+<section class="story">
+  <div class="container">
+    <div class="section-label">С чего всё началось</div>
+    <div class="story-inner">
+      <div>
+        <h2 class="section-title">Помните, где вы были<br><span>1 июля 2018?</span></h2>
+        <div class="story-text">
+          <p>Я буду помнить точно. Потому что провела этот день в подвале Чебоксар.</p>
+          <p>Мы ехали на машине из Казани в Нижний Новгород — проводить обучение для волонтёров Чемпионата мира. В какой-то момент поняли, что до гостиницы не успеваем, а матч Россия — Испания пропустить невозможно. Нашли спорт-бар в подвальном помещении с большим экраном. Окон нет, на улице жара, внутри духота.</p>
+          <div class="story-quote">
+            Перед серией пенальти один такой мужчина — в шортах и с золотой цепью на шее — подошёл к экрану и перекрестил его. Через пару минут Акинфеев в стиле Брюса Ли отбил пенальти. Все вскочили, а мужчина орал громче всех:<br><strong>«Я знал, что сработает».</strong>
+          </div>
+          <p>Футбол — это жизнь, говорит один из героев сериала «Тед Лассо». Лето — это маленькая жизнь, поёт Олег Митяев. А Чемпионат мира этим летом — это, получается, <span class="hl">жизнь в квадрате</span>.</p>
+          <p>Мы предлагаем прожить её вместе с нашим <span class="hl"><s>Не</s>футбольным образовательным клубом ЧМ-2026.</span></p>
+        </div>
+      </div>
+      <img src="images/Акинфеев.jpg" class="story-ball" alt="Игорь Акинфеев — герой ЧМ-2018">
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ ABOUT ══════════ -->
+<section class="about">
+  <!-- Decorative ball -->
+  <img src="images/trionda_ball.jpg" class="ball-deco" style="width:300px;height:300px;right:-80px;top:-60px;transform:rotate(20deg)" alt="">
+  <div class="container">
+    <div class="section-label">О клубе</div>
+    <h2 class="section-title">Это не про футбол.<br><span style="color:#a8e8c0">Это про жизнь.</span></h2>
+    <div class="cards-grid">
+
+      <!-- 1. Исследование -->
+      <div class="card">
+        <div class="card-vis">
+          <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <defs><clipPath id="bc1"><circle cx="50" cy="50" r="44"/></clipPath></defs>
+            <circle cx="50" cy="50" r="44" fill="white" stroke="#1a1a1a" stroke-width="2"/>
+            <g clip-path="url(#bc1)">
+              <rect x="50" y="0" width="50" height="50" fill="#cc2020"/>
+              <rect x="0" y="50" width="50" height="50" fill="#1e6b38"/>
+              <rect x="50" y="50" width="50" height="50" fill="#1844a0"/>
+              <path d="M6,50 C28,20 72,80 94,50" fill="none" stroke="#1a1a1a" stroke-width="2.5"/>
+              <path d="M50,6 C80,28 20,72 50,94" fill="none" stroke="#1a1a1a" stroke-width="2.5"/>
+            </g>
+            <circle cx="50" cy="50" r="44" fill="none" stroke="#1a1a1a" stroke-width="2"/>
+          </svg>
+        </div>
+        <div class="card-body">
+          <h3>Исследование</h3>
+          <p>Все смотрят матчи, но мало кто умеет видеть, что на самом деле происходит: роли, давление, ожидания, логика тренера, конфликты, сценарии провала и успеха. Обычно мы смотрим футбол с комментариями, а значит — уже через чужую интерпретацию, которая постепенно становится нашей. В клубе мы попробуем смотреть иначе: как исследователи, которые замечают детали, собирают факты, проверяют гипотезы и делают собственные выводы. Это навык, который работает далеко за пределами футбола.</p>
+        </div>
+      </div>
+
+      <!-- 2. Управление проектами -->
+      <div class="card">
+        <div class="card-vis">
+          <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <defs><clipPath id="bc2"><circle cx="50" cy="50" r="44"/></clipPath></defs>
+            <circle cx="50" cy="50" r="44" fill="white" stroke="#1a1a1a" stroke-width="2"/>
+            <g clip-path="url(#bc2)">
+              <rect x="50" y="0" width="50" height="50" fill="#cc2020"/>
+              <rect x="0" y="50" width="50" height="50" fill="#1e6b38"/>
+              <rect x="50" y="50" width="50" height="50" fill="#1844a0"/>
+              <path d="M6,50 C28,20 72,80 94,50" fill="none" stroke="#1a1a1a" stroke-width="2.5"/>
+              <path d="M50,6 C80,28 20,72 50,94" fill="none" stroke="#1a1a1a" stroke-width="2.5"/>
+            </g>
+            <circle cx="50" cy="50" r="44" fill="none" stroke="#1a1a1a" stroke-width="2"/>
+          </svg>
+        </div>
+        <div class="card-body">
+          <h3>Управление проектами</h3>
+          <p>Сборная на Чемпионате мира — это проектная команда в экстремальных условиях. Уровень зрелищности и качества у клубного футбола часто выше: условный ПСЖ сильнее большинства сборных, потому что клуб может системно работать с игроками каждый день. А сборная собирается на короткий срок, под огромным давлением и с ограниченным временем на подготовку. Разберём, как в футболе решают задачу управления таким проектом, какую роль играет личность тренера и познакомимся с главными тренерами турнира.</p>
+        </div>
+      </div>
+
+      <!-- 3. Навыки для жизни -->
+      <div class="card">
+        <div class="card-vis">
+          <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <defs><clipPath id="bc3"><circle cx="50" cy="50" r="44"/></clipPath></defs>
+            <circle cx="50" cy="50" r="44" fill="white" stroke="#1a1a1a" stroke-width="2"/>
+            <g clip-path="url(#bc3)">
+              <rect x="50" y="0" width="50" height="50" fill="#cc2020"/>
+              <rect x="0" y="50" width="50" height="50" fill="#1e6b38"/>
+              <rect x="50" y="50" width="50" height="50" fill="#1844a0"/>
+              <path d="M6,50 C28,20 72,80 94,50" fill="none" stroke="#1a1a1a" stroke-width="2.5"/>
+              <path d="M50,6 C80,28 20,72 50,94" fill="none" stroke="#1a1a1a" stroke-width="2.5"/>
+            </g>
+            <circle cx="50" cy="50" r="44" fill="none" stroke="#1a1a1a" stroke-width="2"/>
+          </svg>
+        </div>
+        <div class="card-body">
+          <h3>Навыки для жизни</h3>
+          <p>Футбол — это удобный способ увидеть, как люди действуют под давлением, как команды выдерживают конкуренцию и как решения принимаются в условиях неопределённости. Мы будем рефлексировать и забирать из чемпионата не только эмоции, но и рабочие аналогии для жизни, карьеры, проектов и управления. Научимся смотреть на матч не как на развлечение на два часа, а как на живую модель сложной системы. И да, после этого обычные рабочие совещания могут начать выглядеть немного как групповой этап.</p>
+        </div>
+      </div>
+
+      <!-- 4. ИИ как штаб -->
+      <div class="card">
+        <div class="card-vis">
+          <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <defs><clipPath id="bc4"><circle cx="50" cy="50" r="44"/></clipPath></defs>
+            <circle cx="50" cy="50" r="44" fill="white" stroke="#1a1a1a" stroke-width="2"/>
+            <g clip-path="url(#bc4)">
+              <rect x="50" y="0" width="50" height="50" fill="#cc2020"/>
+              <rect x="0" y="50" width="50" height="50" fill="#1e6b38"/>
+              <rect x="50" y="50" width="50" height="50" fill="#1844a0"/>
+              <path d="M6,50 C28,20 72,80 94,50" fill="none" stroke="#1a1a1a" stroke-width="2.5"/>
+              <path d="M50,6 C80,28 20,72 50,94" fill="none" stroke="#1a1a1a" stroke-width="2.5"/>
+            </g>
+            <circle cx="50" cy="50" r="44" fill="none" stroke="#1a1a1a" stroke-width="2"/>
+          </svg>
+        </div>
+        <div class="card-body">
+          <h3>ИИ как штаб</h3>
+          <p>Мы научим ставить ИИ точные исследовательские задачи. Не «сделай за меня», а «помоги мне думать глубже, шире и точнее». ИИ станет вашим исследовательским штабом: скаутом для первичного поиска, аналитиком для сравнения команд, критиком для проверки слабых мест и редактором для структуры выступления. Главный навык — не нажать волшебную кнопку, а научиться управлять инструментом так, чтобы он усиливал вашу собственную мысль.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ FOR WHOM ══════════ -->
+<section class="forwho">
+  <img src="images/trionda_ball.jpg" class="ball-deco" style="width:260px;height:260px;left:-70px;bottom:-50px;transform:rotate(-10deg)" alt="">
+  <div class="container">
+    <div class="section-label">Для кого</div>
+    <h2 class="section-title">Для всех, кто хочет<br><span>жить</span> жизнь</h2>
+    <ul class="forwho-list">
+      <li>Для тех, кто хочет не просто смотреть матчи, а лучше понимать, что происходит на поле и вокруг него</li>
+      <li>Для тех, кому интересно исследовать команды, людей, стратегии, конфликты, решения и неожиданные повороты</li>
+      <li>Для тех, кто хочет прокачать навык анализа, работы с информацией и публичного рассказа</li>
+      <li>Для тех, кто хочет прожить лето 2026 года так, чтобы потом точно помнить, где он был и что делал</li>
+    </ul>
+    <p class="forwho-note">Футбольная экспертиза не обязательна. Нужны интерес к исследованию и готовность включаться.</p>
+  </div>
+</section>
+
+<!-- ══════════ TRIONDA SHOWCASE ══════════ -->
+<section class="ball-showcase">
+  <div class="container">
+    <div class="showcase-inner">
+      <div class="showcase-text">
+        <div class="section-label">Официальный мяч турнира</div>
+        <h2>Adidas <span style="color:var(--red)">Trionda</span></h2>
+        <p>«Три волны» — название отражает три страны-хозяйки: Канаду, Мексику и США. Четыре панели с волнообразной геометрией, соединяющейся в треугольник.</p>
+        <p>Цвета: красный — кленовый лист Канады. Зелёный — орёл Мексики. Синий — звезда США.</p>
+        <p style="font-size:14px;color:var(--muted);font-style:italic">Именно этим мячом сыграют все матчи ЧМ-2026. Мы будем разбирать их вместе.</p>
+      </div>
+      <img src="images/trionda_ball.jpg" class="ball-img" alt="Adidas Trionda — официальный мяч ЧМ-2026">
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ TIMELINE ══════════ -->
+<section class="timeline-section" id="program">
+  <div class="container">
+    <div class="section-label">Программа</div>
+    <h2 class="section-title">Как это <span>работает</span></h2>
+    <div class="timeline">
+    <div class="timeline-line">
+
+      <div class="timeline-item">
+        <div class="timeline-date">11 июня</div>
+        <div class="timeline-dot"></div>
+        <div class="timeline-body">
+          <h3>Матч открытия — вместе</h3>
+          <p>Смотрим очно в Москве. Если не из Москвы — дома, но вместе с нами в общем поле клуба. Входим в турнир и начинаем проживать чемпионат не как фон, а как событие.</p>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-date">13–17 июня</div>
+        <div class="timeline-dot"></div>
+        <div class="timeline-body">
+          <h3>Жеребьёвка и ваша сборная</h3>
+          <p>Каждый из 48 участников получает одну сборную — ровно столько команд в ЧМ-2026. Собираем первый паспорт команды. Исследуем, почему за сборной Гаити стоит следить, даже если она не фаворит.</p>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-date">20 июня</div>
+        <div class="timeline-dot"></div>
+        <div class="timeline-body">
+          <h3>Вебинар: ИИ как исследовательский штаб</h3>
+          <p>Учимся ставить ИИ точные задачи, проверять ответы и усиливать аналитику. Скаут, аналитик, критик, редактор, собеседник для гипотез.</p>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-date">24 июня</div>
+        <div class="timeline-dot"></div>
+        <div class="timeline-body">
+          <h3>Стратегия и конкуренты</h3>
+          <p>Карта соперников, уязвимостей, сценариев и турнирных развилок. Навык, который переносится в бизнес, карьеру и образование.</p>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-date">27 июня</div>
+        <div class="timeline-dot"></div>
+        <div class="timeline-body">
+          <h3>ЧМ как большая система</h3>
+          <p>История турнира, медиа, национальные ожидания, мифы, деньги и драматургия. Чемпионат — система, где сталкиваются страны, бренды, игроки и миллионы ожиданий.</p>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-date">4 июля</div>
+        <div class="timeline-dot"></div>
+        <div class="timeline-body">
+          <h3>Герои и антигерои группового этапа</h3>
+          <p>Кто стал открытием, кто провалился. Учимся видеть не только результат, но и логику того, как команда к нему пришла.</p>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-date">11 июля</div>
+        <div class="timeline-dot"></div>
+        <div class="timeline-body">
+          <h3>Вебинар с гостем-футболистом</h3>
+          <p>Поговорим с человеком, который знает футбол изнутри: давление, команда, решения, раздевалка и то, что не видно зрителю с дивана.</p>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-date">18 июля</div>
+        <div class="timeline-dot"></div>
+        <div class="timeline-body">
+          <h3>Итоги клуба и Чемпионата</h3>
+          <p>Собираем выводы, обсуждаем гипотезы. Что каждый участник забирает с собой — в работу, проекты и собственный способ смотреть на сложные системы.</p>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-date">19 июля</div>
+        <div class="timeline-dot" style="background:var(--green);box-shadow:0 0 0 2px var(--green)"></div>
+        <div class="timeline-body">
+          <h3>🏆 Финал — смотрим вместе</h3>
+          <p>После такого чемпионата финал уже невозможно смотреть просто как «матч». Это финальная серия большого исследовательского сериала, в котором вы были не зрителем, а участником.</p>
+        </div>
+      </div>
+
+    </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ DAILY ══════════ -->
+<section class="daily">
+  <div class="container">
+    <div class="section-label">Каждый день</div>
+    <h2 class="section-title">Что будет <span>ежедневно</span></h2>
+    <div class="daily-grid">
+      <div class="daily-item">
+        <div class="daily-icon">📺</div>
+        <div class="daily-text">
+          <h4>Видеоразборы дня</h4>
+          <p>От Георгия Бильмана: что произошло, какие матчи стоит пересмотреть, кто удивил, где была скрытая драма.</p>
+        </div>
+      </div>
+      <div class="daily-item">
+        <div class="daily-icon">💬</div>
+        <div class="daily-text">
+          <h4>Общий чат</h4>
+          <p>Обсуждаем матчи, делимся наблюдениями среди людей, которые решили прожить это лето чуть внимательнее.</p>
+        </div>
+      </div>
+      <div class="daily-item">
+        <div class="daily-icon">🎬</div>
+        <div class="daily-text">
+          <h4>Записи занятий</h4>
+          <p>Возвращайтесь к материалам, если пропустили встречу или хотите пересобрать свои выводы.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ PHOTO STRIP ══════════ -->
+<div class="photo-strip">
+  <img src="images/photo_selfie.jpg" alt="FIFA World Cup Final 2018 — мы были там">
+</div>
+
+<!-- ══════════ OUTCOMES ══════════ -->
+<section class="outcomes">
+  <img src="images/trionda_ball.jpg" class="ball-deco" style="width:220px;height:220px;right:-50px;top:40px;transform:rotate(15deg)" alt="">
+  <div class="container">
+    <div class="section-label">Что вы получите</div>
+    <h2 class="section-title">Навыки, которые <span>останутся</span></h2>
+    <div class="outcomes-grid">
+      <div class="outcome-item">Опыт исследования живой, сложной, непредсказуемой системы под давлением</div>
+      <div class="outcome-item">Умение собирать информацию и превращать её в осмысленную картину</div>
+      <div class="outcome-item">Навык анализа конкурентов и формулировки гипотез</div>
+      <div class="outcome-item">Работа с ИИ как с исследовательским инструментом — не вместо себя, а рядом</div>
+      <div class="outcome-item">Умение упаковать материал и рассказать так, чтобы другим стало интересно</div>
+      <div class="outcome-item">Лето 2026 — прожитое как приключение, а не поток новостей и матчей</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ TEAM ══════════ -->
+<section class="team" style="background:var(--bg2)">
+  <div class="container">
+    <div class="section-label">Кто ведёт</div>
+    <h2 class="section-title">Мы там <span>были.</span><br>На самом турнире.</h2>
+    <div class="team-grid">
+
+      <div class="team-card">
+        <img class="team-photo" src="images/photo_madlen.jpg" alt="Мадлен Батурина" style="object-position: center 60%;">
+        <div class="team-info">
+          <div class="team-name">Мадлен Батурина</div>
+          <div class="team-title">Разработчик и тренер по обучению</div>
+          <ul class="team-credits">
+            <li>Кубок Конфедераций — 2017</li>
+            <li>ЧМ по футболу — 2018</li>
+            <li>Олимпийские игры — 2014</li>
+            <li>WorldSkills: чемпионаты мира и Европы</li>
+            <li>«Голос Поколения», «Обучение как искусство»</li>
+            <li>«Битва за Марти» — проект про Оскар-2026</li>
+          </ul>
+          <div class="team-fact">Лучший игрок Чемпионата мира 2018 года. Это правда. А как так вышло — расскажем в клубе.</div>
+        </div>
+      </div>
+
+      <div class="team-card">
+        <img class="team-photo" src="images/photo_georgy.jpg" alt="Георгий Бильман на поле финала ЧМ-2018">
+        <div class="team-info">
+          <div class="team-name">Георгий Бильман</div>
+          <div class="team-title">Разработчик и тренер по обучению</div>
+          <ul class="team-credits">
+            <li>Кубок Конфедераций — 2017</li>
+            <li>Тренер на ЧМ по футболу — 2018</li>
+            <li>Олимпийские игры — 2014</li>
+            <li>Чемпионат мира WorldSkills</li>
+            <li>«Голос Поколения»</li>
+          </ul>
+          <div class="team-fact">Тренер на Чемпионате мира по футболу 2018. А как так вышло — тоже расскажем в клубе.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ HOW TO JOIN ══════════ -->
+<section style="background:var(--bg2); text-align:center; padding:80px 24px;">
+  <div class="container">
+    <div class="section-label">Как вступить в клуб</div>
+    <h2 class="section-title">Один шаг —<br>и вы <span>внутри</span></h2>
+    <p style="font-size:18px;color:var(--muted);margin-bottom:40px;line-height:1.7">Напишите нам в Телеграм, и мы пришлём вам ссылку на оплату.</p>
+    <a href="https://t.me/BaturinaMadlen" target="_blank" class="btn-primary" style="font-size:22px;padding:20px 56px">
+      Написать @BaturinaMadlen
+    </a>
+    <p style="margin-top:20px;font-size:13px;color:var(--border)">Стоимость участия — 14 900 ₽ · 48 мест · Старт 11 июня 2026</p>
+  </div>
+</section>
+
+<!-- ══════════ CTA ══════════ -->
+<section class="cta-section" id="buy">
+  <img src="images/trionda_ball.jpg" class="ball-deco cta-ball-l" alt="">
+  <img src="images/trionda_ball.jpg" class="ball-deco cta-ball-r" alt="">
+  <div class="cta-content">
+    <h2>Прожить это лето как<br><em>участник</em>, не как зритель</h2>
+    <p class="subtext">Футбол — это жизнь. А мы предлагаем этим летом не просто смотреть жизнь с дивана, а исследовать её, обсуждать, спорить, удивляться, болеть и рассказывать истории.</p>
+    <div class="price-label">Стоимость участия</div>
+    <div class="price">14 900 <sub>₽</sub></div>
+    <div class="price-note">Одно место = одна сборная из 48 · 11 июня — 19 июля</div>
+    <!-- ЗАМЕНИТЕ # НА ВАШУ ССЫЛКУ ДЛЯ ОПЛАТЫ -->
+    <a href="#" class="btn-primary">Оплатить и вступить в клуб</a>
+    <div class="seats-counter">
+      <div class="seats-dot"></div>
+      Набор открыт · 48 мест · Старт 11 июня 2026
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer>
+  <p>© 2026 <s>Не</s>футбольный образовательный клуб ЧМ-2026 · Мадлен Батурина и Георгий Бильман</p>
+  <p style="margin-top:10px"><a href="https://docs.google.com/document/d/1yy38rKFVsSfl8a6oz7jhlFAPYmKrix7J/edit" target="_blank" style="color:rgba(255,255,255,0.25);font-size:12px;text-decoration:none;border-bottom:1px solid rgba(255,255,255,0.15)">Ссылка на оферту</a></p>
+</footer>
+
+</body>
+</html>
