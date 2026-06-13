@@ -6,7 +6,7 @@
   <title>Нефутбольный образовательный клуб ЧМ-2026</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:ital,wght@0,400;0,500;0,600;1,400&family=Playfair+Display:ital,wght@1,400;1,600&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -114,12 +114,15 @@
     .hero h1 em { color: var(--red); font-style: normal; }
 
     .hero-sub {
-      font-size: clamp(20px, 3vw, 26px);
-      color: rgba(255,255,255,0.9);
-      max-width: 680px;
+      font-family: 'Playfair Display', Georgia, serif;
+      font-style: italic;
+      font-weight: 400;
+      font-size: clamp(22px, 3.2vw, 30px);
+      color: rgba(255,255,255,0.95);
+      max-width: 700px;
       margin: 0 auto 40px;
-      line-height: 1.5;
-      font-weight: 500;
+      line-height: 1.45;
+      letter-spacing: 0.01em;
     }
 
     .btn-primary {
@@ -276,12 +279,37 @@
       border-radius: 0 8px 8px 0;
       line-height: 1.6 !important;
     }
-    .about-img-wrap { position: sticky; top: 80px; }
+    .about-img-wrap { position: sticky; top: 80px; max-width: 300px; margin-left: auto; }
     .about-img {
       width: 100%;
-      border-radius: 12px;
+      border-radius: 12px 12px 0 0;
       display: block;
       box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    }
+    .utkin-quote {
+      margin: 0;
+      padding: 20px 24px 22px;
+      background: rgba(0,0,0,0.35);
+      border-radius: 0 0 12px 12px;
+      border-top: 3px solid rgba(168,232,192,0.5);
+    }
+    .utkin-quote p, .utkin-quote br { display: inline; }
+    .utkin-quote {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-style: italic;
+      font-size: 20px;
+      color: rgba(255,255,255,0.92);
+      line-height: 1.55;
+    }
+    .utkin-quote cite {
+      display: block;
+      margin-top: 10px;
+      font-style: normal;
+      font-family: 'Oswald', sans-serif;
+      font-size: 13px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: rgba(168,232,192,0.8);
     }
 
     /* ── TRACKS ── */
@@ -637,7 +665,11 @@
         <p class="about-note">Разбираться в футболе не нужно.<br>Достаточно любопытства и желания посмотреть на игру шире — как на живой кейс про работу и жизнь.</p>
       </div>
       <div class="about-img-wrap">
-        <img src="Уткин.jpg" alt="Василий Уткин" class="about-img">
+        <img src="уткин_фото.jpg" alt="Василий Уткин" class="about-img">
+        <blockquote class="utkin-quote">
+          «Вы думали, мы тут в футбол играем?<br>А мы тут жизнь живём»
+          <cite>Василий Уткин</cite>
+        </blockquote>
       </div>
     </div>
   </div>
