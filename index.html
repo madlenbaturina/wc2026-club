@@ -114,11 +114,12 @@
     .hero h1 em { color: var(--red); font-style: normal; }
 
     .hero-sub {
-      font-size: clamp(16px, 2.2vw, 19px);
-      color: rgba(255,255,255,0.75);
-      max-width: 580px;
+      font-size: clamp(20px, 3vw, 26px);
+      color: rgba(255,255,255,0.9);
+      max-width: 680px;
       margin: 0 auto 40px;
-      line-height: 1.6;
+      line-height: 1.5;
+      font-weight: 500;
     }
 
     .btn-primary {
@@ -247,34 +248,41 @@
     .about .section-title { color: #fff; }
     .about .section-title span { color: #a8e8c0; }
 
-    .cards-grid {
+    .about-layout {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 20px; margin-top: 44px;
+      grid-template-columns: 1fr 380px;
+      gap: 56px;
+      align-items: start;
+      margin-top: 40px;
     }
-
-    .card {
-      background: rgba(255,255,255,0.1);
-      border: 1px solid rgba(255,255,255,0.15);
-      border-radius: 10px; overflow: hidden;
-      transition: background .2s, transform .2s;
-      backdrop-filter: blur(4px);
+    @media (max-width: 860px) {
+      .about-layout { grid-template-columns: 1fr; }
+      .about-img-wrap { order: -1; }
     }
-    .card:hover { background: rgba(255,255,255,0.16); transform: translateY(-4px); }
-
-    .card-vis {
-      width: 100%; height: 155px;
-      display: flex; align-items: center; justify-content: center;
-      background: rgba(0,0,0,0.28);
+    .about-text p {
+      font-size: clamp(17px, 2.2vw, 20px);
+      color: rgba(255,255,255,0.88);
+      line-height: 1.75;
+      margin-bottom: 22px;
     }
-    .card-vis svg { width: 115px; height: 115px; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.4)); }
-    .card-body { padding: 22px 24px 26px; }
-    .card h3 {
-      font-family: 'Oswald', sans-serif;
-      font-size: 20px; font-weight: 600;
-      text-transform: uppercase; margin-bottom: 10px; color: #fff;
+    .about-note {
+      margin-top: 36px;
+      font-size: clamp(18px, 2.5vw, 22px) !important;
+      color: #fff !important;
+      font-weight: 600;
+      padding: 24px 28px;
+      border-left: 4px solid rgba(168,232,192,0.7);
+      background: rgba(255,255,255,0.06);
+      border-radius: 0 8px 8px 0;
+      line-height: 1.6 !important;
     }
-    .card p { font-size: 15px; color: rgba(255,255,255,0.8); line-height: 1.65; }
+    .about-img-wrap { position: sticky; top: 80px; }
+    .about-img {
+      width: 100%;
+      border-radius: 12px;
+      display: block;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    }
 
     /* ── TRACKS ── */
     .tracks { background: var(--bg); }
@@ -325,33 +333,6 @@
       .track-item { flex-direction: column; gap: 16px; padding: 22px; }
     }
 
-    /* ── FOR WHOM ── */
-    .forwho { background: var(--bg2); }
-
-    .forwho-list { list-style: none; display: flex; flex-direction: column; gap: 14px; max-width: 720px; }
-    .forwho-list li {
-      display: flex; align-items: flex-start; gap: 16px;
-      font-size: 17px; color: #222; line-height: 1.55;
-      padding: 18px 20px;
-      background: var(--bg3);
-      border-radius: 8px;
-      border-left: 4px solid var(--red);
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-    }
-    .forwho-list li::before {
-      content: '→';
-      color: var(--red); font-family: 'Oswald', sans-serif;
-      font-size: 18px; font-weight: 700; flex-shrink: 0; margin-top: 1px;
-    }
-    .forwho-note {
-      margin-top: 32px;
-      padding: 18px 22px;
-      background: var(--bg3);
-      border: 2px solid var(--green);
-      border-radius: 8px;
-      font-size: 15px; color: var(--muted); max-width: 720px;
-      font-style: italic;
-    }
 
     /* ── TIMELINE ── */
     .timeline-section { background: var(--bg); }
@@ -610,7 +591,7 @@
   <div class="hero-content">
     <div class="hero-badge" style="font-size:18px;padding:10px 28px;letter-spacing:2px">11 июня — 19 июля 2026</div>
     <h1><s style="text-decoration-color:#cc2020">Не</s>футбольный<br>образовательный<br>клуб <em>ЧМ-2026</em></h1>
-    <p class="hero-sub">Не просто смотреть футбол — исследовать жизнь.<br>Команды, стратегии, давление, решения.<br>На материале, который уже заряжен вниманием миллионов.</p>
+    <p class="hero-sub">Играть в свою игру: как футбол помогает нам лучше понимать свою работу и жизнь</p>
     <div class="hero-badge" style="font-size:18px;padding:10px 28px;letter-spacing:2px;background:transparent;border:2px solid rgba(255,255,255,0.4)">Только 48 мест</div>
   </div>
   <div class="scroll-hint">
@@ -647,96 +628,17 @@
   <div class="container">
     <div class="section-label">О клубе</div>
     <h2 class="section-title">Это не про футбол.<br><span style="color:#a8e8c0">Это про жизнь.</span></h2>
-    <div class="cards-grid">
-
-      <!-- 1. Исследование -->
-      <div class="card">
-        <div class="card-vis">
-          <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-            <defs><clipPath id="bc1"><circle cx="50" cy="50" r="44"/></clipPath></defs>
-            <circle cx="50" cy="50" r="44" fill="white" stroke="#1a1a1a" stroke-width="2"/>
-            <g clip-path="url(#bc1)">
-              <rect x="50" y="0" width="50" height="50" fill="#cc2020"/>
-              <rect x="0" y="50" width="50" height="50" fill="#1e6b38"/>
-              <rect x="50" y="50" width="50" height="50" fill="#1844a0"/>
-              <path d="M6,50 C28,20 72,80 94,50" fill="none" stroke="#1a1a1a" stroke-width="2.5"/>
-              <path d="M50,6 C80,28 20,72 50,94" fill="none" stroke="#1a1a1a" stroke-width="2.5"/>
-            </g>
-            <circle cx="50" cy="50" r="44" fill="none" stroke="#1a1a1a" stroke-width="2"/>
-          </svg>
-        </div>
-        <div class="card-body">
-          <h3>Исследование</h3>
-          <p>Все смотрят матчи, но мало кто умеет видеть, что на самом деле происходит: роли, давление, ожидания, логика тренера, конфликты, сценарии провала и успеха. Обычно мы смотрим футбол с комментариями, а значит — уже через чужую интерпретацию, которая постепенно становится нашей. В клубе мы попробуем смотреть иначе: как исследователи, которые замечают детали, собирают факты, проверяют гипотезы и делают собственные выводы. Это навык, который работает далеко за пределами футбола.</p>
-        </div>
+    <div class="about-layout">
+      <div class="about-text">
+        <p>Это обучающее пространство вокруг футбола и чемпионата мира.</p>
+        <p>Формат простой: немного коротких лекций — про управление проектами, ИИ, исследование и командную работу. И много практики: на вебинарах и самостоятельно.</p>
+        <p>Мы будем готовиться дома, смотреть матчи, выполнять задания и обсуждать наблюдения на встречах.</p>
+        <p>Главная идея — смотреть футбол не только как болельщики, а как исследователи: замечать стратегии, роли, решения, конфликты, лидерство и работу команды.</p>
+        <p class="about-note">Разбираться в футболе не нужно.<br>Достаточно любопытства и желания посмотреть на игру шире — как на живой кейс про работу и жизнь.</p>
       </div>
-
-      <!-- 2. Управление проектами -->
-      <div class="card">
-        <div class="card-vis">
-          <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-            <defs><clipPath id="bc2"><circle cx="50" cy="50" r="44"/></clipPath></defs>
-            <circle cx="50" cy="50" r="44" fill="white" stroke="#1a1a1a" stroke-width="2"/>
-            <g clip-path="url(#bc2)">
-              <rect x="50" y="0" width="50" height="50" fill="#cc2020"/>
-              <rect x="0" y="50" width="50" height="50" fill="#1e6b38"/>
-              <rect x="50" y="50" width="50" height="50" fill="#1844a0"/>
-              <path d="M6,50 C28,20 72,80 94,50" fill="none" stroke="#1a1a1a" stroke-width="2.5"/>
-              <path d="M50,6 C80,28 20,72 50,94" fill="none" stroke="#1a1a1a" stroke-width="2.5"/>
-            </g>
-            <circle cx="50" cy="50" r="44" fill="none" stroke="#1a1a1a" stroke-width="2"/>
-          </svg>
-        </div>
-        <div class="card-body">
-          <h3>Управление проектами</h3>
-          <p>Сборная на Чемпионате мира — это проектная команда в экстремальных условиях. Уровень зрелищности и качества у клубного футбола часто выше: условный ПСЖ сильнее большинства сборных, потому что клуб может системно работать с игроками каждый день. А сборная собирается на короткий срок, под огромным давлением и с ограниченным временем на подготовку. Разберём, как в футболе решают задачу управления таким проектом, какую роль играет личность тренера и познакомимся с главными тренерами турнира.</p>
-        </div>
+      <div class="about-img-wrap">
+        <img src="Уткин.jpg" alt="Василий Уткин" class="about-img">
       </div>
-
-      <!-- 3. Навыки для жизни -->
-      <div class="card">
-        <div class="card-vis">
-          <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-            <defs><clipPath id="bc3"><circle cx="50" cy="50" r="44"/></clipPath></defs>
-            <circle cx="50" cy="50" r="44" fill="white" stroke="#1a1a1a" stroke-width="2"/>
-            <g clip-path="url(#bc3)">
-              <rect x="50" y="0" width="50" height="50" fill="#cc2020"/>
-              <rect x="0" y="50" width="50" height="50" fill="#1e6b38"/>
-              <rect x="50" y="50" width="50" height="50" fill="#1844a0"/>
-              <path d="M6,50 C28,20 72,80 94,50" fill="none" stroke="#1a1a1a" stroke-width="2.5"/>
-              <path d="M50,6 C80,28 20,72 50,94" fill="none" stroke="#1a1a1a" stroke-width="2.5"/>
-            </g>
-            <circle cx="50" cy="50" r="44" fill="none" stroke="#1a1a1a" stroke-width="2"/>
-          </svg>
-        </div>
-        <div class="card-body">
-          <h3>Навыки для жизни</h3>
-          <p>Футбол — это удобный способ увидеть, как люди действуют под давлением, как команды выдерживают конкуренцию и как решения принимаются в условиях неопределённости. Мы будем рефлексировать и забирать из чемпионата не только эмоции, но и рабочие аналогии для жизни, карьеры, проектов и управления. Научимся смотреть на матч не как на развлечение на два часа, а как на живую модель сложной системы. И да, после этого обычные рабочие совещания могут начать выглядеть немного как групповой этап.</p>
-        </div>
-      </div>
-
-      <!-- 4. ИИ как штаб -->
-      <div class="card">
-        <div class="card-vis">
-          <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-            <defs><clipPath id="bc4"><circle cx="50" cy="50" r="44"/></clipPath></defs>
-            <circle cx="50" cy="50" r="44" fill="white" stroke="#1a1a1a" stroke-width="2"/>
-            <g clip-path="url(#bc4)">
-              <rect x="50" y="0" width="50" height="50" fill="#cc2020"/>
-              <rect x="0" y="50" width="50" height="50" fill="#1e6b38"/>
-              <rect x="50" y="50" width="50" height="50" fill="#1844a0"/>
-              <path d="M6,50 C28,20 72,80 94,50" fill="none" stroke="#1a1a1a" stroke-width="2.5"/>
-              <path d="M50,6 C80,28 20,72 50,94" fill="none" stroke="#1a1a1a" stroke-width="2.5"/>
-            </g>
-            <circle cx="50" cy="50" r="44" fill="none" stroke="#1a1a1a" stroke-width="2"/>
-          </svg>
-        </div>
-        <div class="card-body">
-          <h3>ИИ как штаб</h3>
-          <p>Мы научим ставить ИИ точные исследовательские задачи. Не «сделай за меня», а «помоги мне думать глубже, шире и точнее». ИИ станет вашим исследовательским штабом: скаутом для первичного поиска, аналитиком для сравнения команд, критиком для проверки слабых мест и редактором для структуры выступления. Главный навык — не нажать волшебную кнопку, а научиться управлять инструментом так, чтобы он усиливал вашу собственную мысль.</p>
-        </div>
-      </div>
-
     </div>
   </div>
 </section>
@@ -795,21 +697,6 @@
   </div>
 </section>
 
-<!-- ══════════ FOR WHOM ══════════ -->
-<section class="forwho">
-  <img src="trionda_ball.jpg" class="ball-deco" style="width:260px;height:260px;left:-70px;bottom:-50px;transform:rotate(-10deg)" alt="">
-  <div class="container">
-    <div class="section-label">Для кого</div>
-    <h2 class="section-title">Для всех, кто хочет<br><span>жить</span> жизнь</h2>
-    <ul class="forwho-list">
-      <li>Для тех, кто хочет не просто смотреть матчи, а лучше понимать, что происходит на поле и вокруг него</li>
-      <li>Для тех, кому интересно исследовать команды, людей, стратегии, конфликты, решения и неожиданные повороты</li>
-      <li>Для тех, кто хочет прокачать навык анализа, работы с информацией и публичного рассказа</li>
-      <li>Для тех, кто хочет прожить лето 2026 года так, чтобы потом точно помнить, где он был и что делал</li>
-    </ul>
-    <p class="forwho-note">Футбольная экспертиза не обязательна. Нужны интерес к исследованию и готовность включаться.</p>
-  </div>
-</section>
 
 <!-- ══════════ TRIONDA SHOWCASE ══════════ -->
 <section class="ball-showcase">
@@ -982,7 +869,7 @@
     <div class="team-grid">
 
       <div class="team-card">
-        <img class="team-photo" src="photo_madlen.jpg" alt="Мадлен Батурина" style="object-position: center 60%;">
+        <img class="team-photo" src="photo_madlen.jpg" alt="Мадлен Батурина" style="object-position: center top;">
         <div class="team-info">
           <div class="team-name">Мадлен Батурина</div>
           <div class="team-title">Разработчик и тренер по обучению</div>
@@ -1030,6 +917,7 @@
     <p style="margin-top:20px;font-size:13px;color:var(--border)">Стоимость участия — 14 900 ₽ · 48 мест · Старт 11 июня 2026</p>
   </div>
 </section>
+
 
 <!-- ══════════ CTA ══════════ -->
 <section class="cta-section" id="buy">
